@@ -1,0 +1,12 @@
+paramiko
+toml
+pexpect>=4.5
+python-daemon
+pyyaml
+six
+cryptography
+pyopenssl>=24.0.0
+python-consul
+botocore
+boto3
+basyx-python-sdk==1.2.1

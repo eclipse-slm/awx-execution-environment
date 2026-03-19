@@ -1,0 +1,46 @@
+---
+collections:
+  - name: awx.awx
+  - name: amazon.aws
+    source: "https://github.com/ansible-collections/amazon.aws.git"
+    type: git
+    version: "7.2.0"
+  - name: kubernetes.core
+  - name: ansible.posix
+  - name: ansible.windows
+  - name: community.hashi_vault
+  - name: community.crypto
+  - name: community.general
+    source: "https://github.com/ansible-collections/community.general.git"
+    type: git
+    version: "9.4.0"
+  - name: community.docker
+  - name: kubernetes.core
+    source: "https://github.com/ansible-collections/kubernetes.core.git"
+    type: git
+    version: "2.3.2"
+  - name: slm.aas
+    source: "https://github.com/eclipse-slm/ansible-collection-aas"
+    type: git
+    version: "main"
+roles:
+  - src: "git+https://github.com/eclipse-slm/slm-ansible-role-node-exporter"
+    scm: git
+    version: main
+    name: node_exporter
+  - src: "git+https://github.com/eclipse-slm/slm-ansible-role-basyx-server"
+    scm: git
+    version: main
+    name: basyx_server
+  - src: "git+https://github.com/eclipse-slm/slm-ansible-role-consul"
+    scm: git
+    version: main
+    name: consul
+  - src: "git+https://github.com/eclipse-slm/slm-ansible-role-inventory-helper"
+    scm: git
+    version: 1.0.2
+    name: inventory_helper
+  - src: "git+https://github.com/eclipse-slm/slm-ansible-role-docker"
+    scm: git
+    version: main
+    name: docker

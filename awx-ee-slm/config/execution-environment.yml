@@ -1,0 +1,31 @@
+---
+version: 3
+
+images:
+  base_image:
+    name: quay.io/centos/centos:stream10
+
+dependencies:
+  python_interpreter:
+    package_system: python314  # (optional) name of a Python interpreter OS package to install
+    python_path: /usr/bin/python3.14  # (optional) path to the Python interpreter to use
+  ansible_core:
+    package_pip: ansible-core==2.20.3
+  ansible_runner:
+    package_pip: ansible-runner
+  system: bindep.txt
+  galaxy: requirements.yml
+  python: requirements.txt
+
+additional_build_steps:
+  prepend_base: |
+    RUN dnf install -y git
+    RUN dnf config-manager --set-enabled crb
+    RUN dnf remove -y cmake
+    RUN dnf install -y python3.14 python3.14-pip python3.14-devel krb5-devel gcc gcc-c++ openssl-devel cyrus-sasl-devel cmake3
+  append_base: |
+    RUN $PYCMD -m pip install -U pip
+    RUN dnf install -y git
+  append_final:
+    # Required for ssh auth via private key
+    ENV ANSIBLE_SSH_AGENT=auto

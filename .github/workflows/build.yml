@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  VERSION: 1.4.0-SNAPSHOT
+
+jobs:
+  build-and-push-awx-ee-slm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Build AWX-EE
+        env:
+          DOCKER_IMAGE: ghcr.io/${{ github.repository_owner }}/awx-ee-slm:${{ env.VERSION }}
+        run: |
+          docker_image_lowercase=$(echo "$DOCKER_IMAGE" | tr '[:upper:]' '[:lower:]')
+          echo "Building custom AWX-EE-SLM "
+          cd awx-ee-slm
+          docker build -t awx-ee-slm-builder:latest .
+          docker run --name awx-ee-slm-builder -v /var/run/docker.sock:/var/run/docker.sock  --rm awx-ee-slm-builder:latest
+          docker tag awx_ee_slm_devel:latest $docker_image_lowercase
+          docker push $docker_image_lowercase
