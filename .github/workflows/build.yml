@@ -25,12 +25,12 @@ jobs:
           password: ${{secrets.GITHUB_TOKEN}}
       - name: Build AWX-EE
         env:
-          DOCKER_IMAGE: ghcr.io/${{ github.repository_owner }}/awx-ee-slm:${{ env.VERSION }}
+          DOCKER_IMAGE: ghcr.io/${{ github.repository_owner }}/awx-ee-slm-default:${{ env.VERSION }}
         run: |
-          docker_image_lowercase=$(echo "$DOCKER_IMAGE" | tr '[:upper:]' '[:lower:]')
+          docker_image_name=$(echo "$DOCKER_IMAGE")
           echo "Building custom AWX-EE-SLM "
           cd awx-ee-slm
           docker build -t awx-ee-slm-builder:latest .
           docker run --name awx-ee-slm-builder -v /var/run/docker.sock:/var/run/docker.sock  --rm awx-ee-slm-builder:latest
-          docker tag awx_ee_slm_devel:latest $docker_image_lowercase
-          docker push $docker_image_lowercase
+          docker tag awx_ee_slm_devel:latest $docker_image_name
+          docker push $docker_image_name
