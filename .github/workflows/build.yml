@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  VERSION: 1.4.0-SNAPSHOT
+  VERSION: 1.4.0-RELEASE
 
 jobs:
   build-and-push-awx-ee-slm:
